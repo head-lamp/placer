@@ -1,0 +1,13 @@
+{ "columns":1,
+ "image":"..\/..\/sprites\/test_sprites\/Sprite-0002.png",
+ "imageheight":16,
+ "imagewidth":16,
+ "margin":0,
+ "name":"test_tileset",
+ "spacing":0,
+ "tilecount":1,
+ "tileheight":16,
+ "tilewidth":16,
+ "transparentcolor":"#ff00ff",
+ "type":"tileset"
+}

@@ -8,7 +8,6 @@ const int SCREEN_HEIGHT = 480;
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
-
 // init is going to need to make sure sdl is working,
 // spawn a global window and renderer (for now?)
 // make sure there is a config.txt
@@ -66,9 +65,6 @@ SDL_Texture* load_texture(const char* path) {
     return tex;
 }
 
-void close(void) {
-}
-
 int main(int argc, char* args[]) {
 
     int res = init();
@@ -82,20 +78,8 @@ int main(int argc, char* args[]) {
     }
 
     bool quit = false;
+    run_game();
 
-    SDL_Event e;
-    while (!quit) {
-        while (SDL_PollEvent(&e) != 0) {
-            if (e.type == SDL_QUIT) {
-                quit = true;
-            }
-            else if (e.type == SDL_KEYDOWN) {
-            }
-        }
-        SDL_RenderPresent( renderer );
-    }
-
-    close();
 
     return 0;
 }
