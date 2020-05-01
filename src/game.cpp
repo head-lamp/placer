@@ -4,17 +4,54 @@
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 
+int game_state;
+
 void tick(SDL_Event *e) {
     float dt;
     update(e, dt);
 }
 
 void update(SDL_Event *e, float dt) {
+    switch(game_state) {
+        case STARTUP:
+            break;
+        case START_MENU:
+            break;
+        case GAME_OPTIONS:
+            break;
+        case CREDITS:
+            break;
+        case GAME:
+            break;
+        default:
+            printf("no state?");
+            break;
+    }
 }
 
 void draw(SDL_Event *, float dt) {
     // clear at the start of the step?
     SDL_RenderClear(renderer);
+
+    // cycle through possible parts of game
+    // and let those components draw
+    // this will likely be functions like `draw_game()` or 
+    // function pointers on structs
+    switch(game_state) {
+        case STARTUP:
+            break;
+        case START_MENU:
+            break;
+        case GAME_OPTIONS:
+            break;
+        case CREDITS:
+            break;
+        case GAME:
+            break;
+        default:
+            printf("no state?");
+            break;
+    }
 
     SDL_RenderPresent( renderer );
 }
