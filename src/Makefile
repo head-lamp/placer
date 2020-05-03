@@ -1,7 +1,7 @@
 cc = g++
 compiler_flags = -w -v
-# linker_flags = -I include -L lib -l SDL2-2.0.0 -lSDL2_image
-linker_flags = -I /usr/local/include -L /usr/local/lib -l SDL2-2.0.0 -lSDL2_image
+# linker_flags = -I include -L lib -l SDL2-2.0.0 -lSDL2_image -lSDL2_
+linker_flags = -I include -L lib -l SDL2-2.0.0 -lSDL2_image -lSDL2_ttf
 
 out=game
 
@@ -9,6 +9,8 @@ obj_files =\
 	main.o \
 	game.o \
 	config.o \
+	log.o \
+	graphics.o \
 
 $(out) : $(obj_files)
 	$(cc) $(compiler_flags) -o $(out) $(obj_files) $(linker_flags)

@@ -7,6 +7,7 @@ const int SCREEN_HEIGHT = 480;
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+TTF_Font *nfont = NULL;
 
 // init is going to need to make sure sdl is working,
 // spawn a global window and renderer (for now?)
@@ -34,7 +35,19 @@ int init(void) {
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     int imgflags = IMG_INIT_PNG;
     if (!(IMG_Init(imgflags) & imgflags)) {
-        printf("couldn't init sdl_image SDL err: %s\n", IMG_GetError());
+        printf("couldn't init sdl_image img err: %s\n", IMG_GetError());
+        return 0;
+    }
+
+    if (TTF_Init() == -1) {
+        printf("TTF couldnt init sdl_ttf ttf err: %s\n", TTF_GetError());
+        return 0;
+    }
+
+    nfont = TTF_OpenFont("assets/fonts/Hack-Regular.ttf",12);
+    if (nfont == NULL) {
+        printf("failed to load font err %s\n", TTF_GetError());
+        printf("why");
         return 0;
     }
 
@@ -46,23 +59,6 @@ int init(void) {
 
 int load_media(void) {
     return 1;
-}
-
-SDL_Texture* load_texture(const char* path) {
-    SDL_Texture *tex = NULL;
-    SDL_Surface *surf = IMG_Load(path);
-    if (surf == NULL) {
-        printf("unable to load img %s SDL_image err: %s\n",
-            path, IMG_GetError());
-    }
-    tex = SDL_CreateTextureFromSurface(renderer, surf);
-    if (tex == NULL) {
-        printf("unable to create texture from %s SDL err: %s\n",
-            path, SDL_GetError());
-    }
-    SDL_FreeSurface(surf);
-
-    return tex;
 }
 
 int main(int argc, char* args[]) {

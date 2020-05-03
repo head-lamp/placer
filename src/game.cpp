@@ -3,15 +3,15 @@
 
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
-
+extern TTF_Font *nfont;
 int game_state;
+int foo = 0;
 
 void tick(SDL_Event *e) {
     float dt;
-    update(e, dt);
 }
 
-void update(SDL_Event *e, float dt) {
+void update(SDL_Event *e, int dt) {
     switch(game_state) {
         case STARTUP:
             break;
@@ -29,7 +29,7 @@ void update(SDL_Event *e, float dt) {
     }
 }
 
-void draw(SDL_Event *, float dt) {
+void draw(SDL_Event *, int dt) {
     // clear at the start of the step?
     SDL_RenderClear(renderer);
 
@@ -53,6 +53,9 @@ void draw(SDL_Event *, float dt) {
             break;
     }
 
+    // i guess for now always draw the log?
+    draw_log(renderer, dt);
+
     SDL_RenderPresent( renderer );
 }
 
@@ -67,6 +70,8 @@ void run_game() {
 
     SDL_Event e;
 
+    log("hello world\n");
+
     bool running = true;
     while (running) {
         while (SDL_PollEvent(&e) != 0) {
@@ -77,7 +82,7 @@ void run_game() {
         current_time = SDL_GetTicks();
         dt = current_time - last_time;
         last_time = current_time;
-        printf("%d\n", dt);
+        // printf("%d\n", dt);
         update(&e, dt);
         draw(&e, dt);
 
@@ -88,7 +93,6 @@ void run_game() {
 
     close();
 }
-
 
 void close(void) {
     SDL_DestroyRenderer(renderer);
