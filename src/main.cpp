@@ -44,7 +44,7 @@ int init(void) {
         return 0;
     }
 
-    nfont = TTF_OpenFont("assets/fonts/Hack-Regular.ttf",12);
+    nfont = TTF_OpenFont("assets/fonts/Hack-Regular.ttf",8);
     if (nfont == NULL) {
         printf("failed to load font err %s\n", TTF_GetError());
         printf("why");

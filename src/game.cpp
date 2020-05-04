@@ -70,7 +70,7 @@ void run_game() {
 
     SDL_Event e;
 
-    log("hello world\n");
+    log("HELLO WORLD");
 
     bool running = true;
     while (running) {

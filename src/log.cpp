@@ -13,5 +13,6 @@ void update_log(SDL_Event *e, int dt) {
 }
 
 void draw_log(SDL_Renderer *rndr, int dt) {
-    SDL_RenderCopy(rndr, log_texture, NULL, NULL);
+    SDL_Rect rect = {0, 0, 16, 16};
+    SDL_RenderCopy(rndr, log_texture, NULL, &rect);
 }

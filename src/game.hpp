@@ -1,3 +1,6 @@
+#ifndef GAME_HEADER
+#define GAME_HEADER
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -42,3 +45,5 @@ enum GameState{
     LEVEL_CLEAR,
     GAMESTATE_TOTAL
 };
+
+#endif
