@@ -14,6 +14,8 @@
 #include "config.hpp"
 #include "log.hpp"
 #include "graphics.hpp"
+#include "physical.hpp"
+#include "renderable.hpp"
 
 void run_game(void);
 bool save_game(char *path);
