@@ -1,0 +1,68 @@
+idk why jon blow would say that ecs sucks
+even still for now i think i'll just bare with it
+because i think it might margianlly be ok
+
+basic plan here is there is going to be a component_list struct
+containing arrays
+the only thing going in these arrays will be a int relating to the entity ID
+```
+components_list {
+    Physical physics[100];
+    Renderable renders[100];
+    Inventory inventory[100];
+    AiComp AiComp[100];
+}
+```
+
+
+looks fucking shit probably
+
+we'll need a function to create entities
+entities will go in a entities array
+ and the components they need will go into the components list
+
+an example would be:
+https://prdeving.wordpress.com/2018/06/27/videogames-programming-ecs-system-in-plain-c/
+
+basically need to be able to dynamically create to get an entity created from a string
+maybe an enum of maps?
+
+i'll think about it more tomorrow i think
+
+
+
+came up with more ideas
+
+there could be a mkentity fn:
+
+```
+ENTITIES[100];
+ENTITY_ID=0;
+
+func load_files_from_tiled(path) {
+    // go through the squares in tiled and find the entities that should build up
+    // an array of entities to build up
+    return data;
+}
+
+// initial mk entities
+func mkentities(data) {
+    foreach data_row in data {
+        int id = ENTITY_ID++;
+        // see what components are in data row
+        // add them to the  components list
+    }
+}
+```
+
+there are some questions still to be asked
+like what happens with enimies?
+should there be a helpful entities array?
+that way its easy to search for what things entities basically need
+might be messy, might take ram
+fuck it
+after there is some initial stuff going i can do some averages on how rough this shit is going to be
+i'm also hoping that there is some way this makes it easy to pop off or kill enimies when they were dead.....or even better yet
+what if bad guys could have a corpse after they've been blown to bits?
+or better yet
+a gibbing fn :^)
