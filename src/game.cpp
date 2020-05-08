@@ -1,11 +1,15 @@
 #include "game.hpp"
 // extern SDL_Window *window;
 
+// TODO FIXME stop using switch statements
+
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern TTF_Font *nfont;
-int game_state;
-int foo = 0;
+
+
+
+int game_state = GAME;
 
 void tick(SDL_Event *e) {
     float dt;
@@ -29,7 +33,10 @@ void update(SDL_Event *e, int dt) {
     }
 }
 
-void draw(SDL_Event *, int dt) {
+void change_main_state(GameState state) {
+}
+
+void draw(SDL_Event *e, int dt) {
     // clear at the start of the step?
     SDL_RenderClear(renderer);
 
@@ -70,8 +77,11 @@ void run_game() {
 
     SDL_Event e;
 
-    log("HELLO WORLD");
-
+    // test player
+    // Player *p = (struct Player*)malloc(sizeof(Player));
+    // p->physical.x = 0;
+    GameWorld gw;
+    init_game_world(&gw);
     bool running = true;
     while (running) {
         while (SDL_PollEvent(&e) != 0) {
@@ -83,7 +93,12 @@ void run_game() {
         dt = current_time - last_time;
         last_time = current_time;
         // printf("%d\n", dt);
-        update(&e, dt);
+        if (game_state != GAME) {
+            update(&e, dt);
+        }
+        else {
+            game_world_update(&gw, &e, dt);
+        }
         draw(&e, dt);
 
         // always sleep for 1 ms _for now_

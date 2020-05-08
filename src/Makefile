@@ -11,6 +11,10 @@ obj_files =\
 	config.o \
 	log.o \
 	graphics.o \
+	player.o \
+	physical.o \
+	renderable.o \
+	game_world.o
 
 $(out) : $(obj_files)
 	$(cc) $(compiler_flags) -o $(out) $(obj_files) $(linker_flags)
