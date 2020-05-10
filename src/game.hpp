@@ -10,10 +10,15 @@
 #include <limits.h>
 #include <time.h>
 
-// libs
+// libs i didn't write
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
+#include "lib/cJSON.h"
+
+// my libs
+#include "util.hpp"
 
 // components
 #include "physical.hpp"

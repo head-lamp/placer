@@ -14,7 +14,9 @@ obj_files =\
 	player.o \
 	physical.o \
 	renderable.o \
-	game_world.o
+	game_world.o \
+	util.o \
+	lib/cJSON.o
 
 $(out) : $(obj_files)
 	$(cc) $(compiler_flags) -o $(out) $(obj_files) $(linker_flags)

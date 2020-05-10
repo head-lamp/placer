@@ -15,7 +15,7 @@ void init_game_world(GameWorld *gw) {
     // add entities
     // todo this will eventually be a loop
     int id = gw->entities_total++;
-    read_ents(gw, "ents/");
+    read_ent(gw, "ents/player.json");
     printf("id %d\n", id);
     // p.entity_id = id;
     // for now 1 for alive 0 for dead?
@@ -41,6 +41,6 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
     //printf("%d\n", gw->comps->phys_components[0].x);
 }
 
-void read_ents(GameWorld *gw, const char *path) {
-    printf("%s\n", path);
+// TODO: path is currently hardcoded in the fn
+void read_ent(GameWorld *gw, const char *path) {
 }

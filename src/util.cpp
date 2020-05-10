@@ -1,0 +1,1 @@
+char *filecontents(char *path);
