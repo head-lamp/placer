@@ -15,6 +15,7 @@ void init_game_world(GameWorld *gw) {
     // add entities
     // todo this will eventually be a loop
     int id = gw->entities_total++;
+    read_ents(gw, "ents/");
     printf("id %d\n", id);
     // p.entity_id = id;
     // for now 1 for alive 0 for dead?
@@ -37,5 +38,9 @@ void init_game_world(GameWorld *gw) {
 // oops
 // time for ecs?
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
-    printf("%d\n", gw->comps->phys_components[0].x);
+    //printf("%d\n", gw->comps->phys_components[0].x);
+}
+
+void read_ents(GameWorld *gw, const char *path) {
+    printf("%s\n", path);
 }

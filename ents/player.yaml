@@ -1,0 +1,16 @@
+components:
+    -
+        name: physical
+        x: 0
+        y: 0
+        mass: 1
+        vx: 0.0
+        vy: 0.0
+        coll_shapes: null
+        active_shape: 0
+        num_shapes: 0
+    -
+        name: renderable
+        sprite_sheet_path: "assets/sprites/test_sprites/example_player.png"
+        active_frame: 0
+        num_frames: 0
