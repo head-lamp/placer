@@ -1,0 +1,22 @@
+I've been playing doom, blood, and quake a lot lately
+I like the way levels and maps are things that are bundled
+
+thinking placer will try to mimick this with some kind of dir and config file structure mimicking this kinda thing
+
+game/
+    assets/
+        sprites/
+        maps/
+    ents/
+        player.yaml // contains component lists
+        zombie.yaml
+        door.yaml
+        ....
+    eps/
+        ep1/
+            ep.yaml // contains orders of levels etc and points to them in some `levels` key
+            level1.yaml // contains path to maps needed in tiled
+
+
+this isn't necessary info right now though lol
+more so i just need to get stuff on screen and start working on the destruction mechanic
