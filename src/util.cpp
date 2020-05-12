@@ -8,11 +8,15 @@
 #include <stdio.h> // TODO replace stdio.h fns
 
 // slow
-const char* file(char *path) {
+const char* read_file(const char *path) {
     char *txt;
     FILE *f = fopen(path, "r");
+    if (f == NULL) {
+        printf("couldn't open file%s\n", path);
+    }
     fseek(f, 0, SEEK_END);
     size_t sz = ftell(f);
+    fseek(f, 0, SEEK_SET);
     txt = (char *)malloc(sz + 1);
     fread(txt, sz, 1, f);
     txt[sz] = '\0';
