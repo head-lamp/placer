@@ -15,7 +15,7 @@ void init_game_world(GameWorld *gw) {
     // add entities
     // todo this will eventually be a loop
     int id = gw->entities_total++;
-    read_ent(gw, "ents/player.json");
+    load_ent(gw, "ents/player.json");
     printf("id %d\n", id);
     // p.entity_id = id;
     // for now 1 for alive 0 for dead?
@@ -24,8 +24,7 @@ void init_game_world(GameWorld *gw) {
         NULL, 0, 0
     };
     gw->comps->phys_components[id] = phys;
-    Renderable rend = {
-        id,
+    Renderable rend = { id,
         "assets/sprites/test_sprites/example_player.png",
         0, 0
     };
@@ -46,7 +45,7 @@ TODO
 I have a hunch that this function will likely be super duper slow
 run a debugger here and step through the function and see just how bad it gets
  */
-void read_ent(GameWorld *gw, const char *path) {
+void load_ent(GameWorld *gw, const char *path) {
     const char *entdata_file;
     entdata_file = read_file(path);
     printf("%s\n", entdata_file);
@@ -55,13 +54,68 @@ void read_ent(GameWorld *gw, const char *path) {
         printf("cjson err: %s\n", cJSON_GetErrorPtr());
     }
     const cJSON *components = cJSON_GetObjectItem(entdata, "components");
-    cJSON *item;
     cJSON *comp = NULL;
     char *comp_name;
+
+    // TODO FIXME
+    // this routine is kinda rough?
+    // get_comp_id needs to find a component in
+    // COMPONENTS_NAMES / first loop
+    // which matches the str / second loop
+    // which then returns an int from Components?
+    // all in all this is a bit silly
+    // this needs to be a map or something
+    // that way it can just match the string against
+    // and get back an INT
+    //
+    // another idea (maybe terrible)
+    // is to just match against the int values from adding all the ascii chars together?
+    // idk if that has legs or not lol
+    // maybe the ids could just be in the data file?
+    // do this check offline basically?
+    // idk
     for (int i = 0; i < cJSON_GetArraySize(components); i++) {
         printf("%d\n", i);
         comp = cJSON_GetArrayItem(components, i);
-        item = cJSON_GetObjectItem(comp, "name");
-        printf("item: %s\n", cJSON_GetStringValue(item));
+        load_component(gw, comp);
     }
+}
+
+// TODO watch memory useage here
+void load_component(GameWorld *gw, const cJSON *comp) {
+    cJSON *item = cJSON_GetObjectItem(comp, "name");
+    char *comp_name = cJSON_GetStringValue(item);
+    Components id = get_comp_id(comp_name);
+    switch(id) {
+        case PHYSICAL:
+            printf("case: phsyical\n");
+            break;
+        case RENDERABLE:
+            printf("case: renderable\n");
+            break;
+        case COMPONENTS_TOTAL:
+            printf("didn't find anything basically\n");
+            break;
+        default:
+            break;
+    }
+}
+
+// TODO: slow?
+// yes it's slow
+// need to kinda fix it
+Components get_comp_id(const char *comp_name) {
+    extern const char *COMPONENT_NAMES[];
+    char * cn;
+
+    printf("k lets hope this shit works\n");
+    for (int i=0; i < COMPONENTS_TOTAL; i++) {
+        if (strcmp(COMPONENTS_NAMES[i], comp_name) == 0) {
+            return (Components)i;
+        }
+    }
+
+    // couldn't find it?
+    // just return the total
+    return COMPONENTS_TOTAL;
 }

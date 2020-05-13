@@ -19,4 +19,5 @@ gw:
 path:
  dir path to ents to load in
  */
-void read_ent(GameWorld *gw, const char *path);
+void load_ent(GameWorld *gw, const char *path);
+void load_component(GameWorld *gw, const cJSON *comp);

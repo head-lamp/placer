@@ -22,3 +22,15 @@ const char* read_file(const char *path) {
     txt[sz] = '\0';
     return txt;
 }
+
+// 0 is true here
+int strcmp(char const *a, char const *b) {
+    while (*a) {
+        if (*a != *b) {
+            break;
+        }
+        a++;
+        b++;
+    }
+    return *a - *b;
+}

@@ -1,1 +1,1 @@
-{"components":[{"active_shape":0,"coll_shapes":null,"mass":1,"name":"physical","num_shapes":0,"vx":0,"vy":0,"x":0,"y":0},{"active_frame":0,"name":"renderabl","num_frames":0,"sprite_sheet_path":"assets/sprites/test_sprites/example_player.png"}]}
+{"components":[{"active_shape":0,"coll_shapes":null,"mass":1,"name":"physical","num_shapes":0,"vx":0,"vy":0,"x":0,"y":0},{"active_frame":0,"name":"renderable","num_frames":0,"sprite_sheet_path":"assets/sprites/test_sprites/example_player.png"}]}
