@@ -7,6 +7,8 @@
 #include <stdlib.h> // TODO replace std lib fns
 #include <stdio.h> // TODO replace stdio.h fns
 
+#include "game.hpp"
+
 // slow
 const char* read_file(const char *path) {
     char *txt;
@@ -33,4 +35,28 @@ int strcmp(char const *a, char const *b) {
         b++;
     }
     return *a - *b;
+}
+
+const char *get_json_string(const cJSON *obj, const char *key) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    if (item == NULL) {
+        return "";
+    }
+    return cJSON_GetStringValue(item);
+}
+
+const int get_json_int(const cJSON *obj, const char *key) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    if (item == NULL) {
+        return 0;
+    }
+    return (int)cJSON_GetNumberValue(item);
+}
+
+const float get_json_float(const cJSON *obj, const char *key) {
+    cJSON *item = cJSON_GetObjectItem(obj, key);
+    if (item == NULL) {
+        return (float)0;
+    }
+    return (float)cJSON_GetNumberValue(item);
 }

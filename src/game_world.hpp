@@ -1,3 +1,5 @@
+#ifndef GAMEWORLD_HEADER
+#define GAMEWORLD_HEADER
 struct GameWorld {
     int entity_list[100];
     int entities_total;
@@ -21,3 +23,4 @@ path:
  */
 void load_ent(GameWorld *gw, const char *path);
 void load_component(GameWorld *gw, const cJSON *comp);
+#endif

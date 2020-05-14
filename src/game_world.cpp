@@ -89,9 +89,28 @@ void load_component(GameWorld *gw, const cJSON *comp) {
     switch(id) {
         case PHYSICAL:
             printf("case: phsyical\n");
+            Physical phys;
+            phys.x = get_json_int(comp, "x");
+            phys.y = get_json_int(comp, "y");
+            phys.mass = get_json_int(comp, "mass");
+            phys.vx = get_json_float(comp, "vx");
+            phys.vy = get_json_float(comp, "vy");
+            phys.num_shapes = get_json_float(comp, 0);
+
+            printf("x: %d\n", get_json_int(comp, "x"));
+            printf("y: %d\n", get_json_int(comp, "x"));
+            printf("mass: %d\n", get_json_int(comp, "x"));
+            printf("mass: %d\n", get_json_int(comp, "x"));
             break;
         case RENDERABLE:
             printf("case: renderable\n");
+            Renderable rend;
+            rend.sprite_sheet_path = get_json_string(comp, "sprite_sheet_path");
+            rend.active_frame = get_json_int(comp, "active_frame");
+            rend.num_frames = get_json_int(comp, "num_frames");
+
+            printf("sprite sheet path: %s\n", get_json_string(comp, "sprite_sheet_path"));
+
             break;
         case COMPONENTS_TOTAL:
             printf("didn't find anything basically\n");
@@ -101,11 +120,15 @@ void load_component(GameWorld *gw, const cJSON *comp) {
     }
 }
 
+const char *COMPONENTS_NAMES[] = {
+    "physical",
+    "renderable",
+};
+
 // TODO: slow?
 // yes it's slow
 // need to kinda fix it
 Components get_comp_id(const char *comp_name) {
-    extern const char *COMPONENT_NAMES[];
     char * cn;
 
     printf("k lets hope this shit works\n");
