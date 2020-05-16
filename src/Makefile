@@ -11,7 +11,6 @@ obj_files =\
 	config.o \
 	log.o \
 	graphics.o \
-	player.o \
 	physical.o \
 	renderable.o \
 	game_world.o \

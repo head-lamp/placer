@@ -1,9 +1,11 @@
 #ifndef GAMEWORLD_HEADER
 #define GAMEWORLD_HEADER
+
+#define INITIAL_COMPONENT_SIZE 100
 struct GameWorld {
-    int entity_list[100];
+    int entity_list[INITIAL_COMPONENT_SIZE];
     int entities_total;
-    ComponentList comps[100];
+    ComponentList comps;
 };
 
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt);
@@ -21,6 +23,9 @@ gw:
 path:
  dir path to ents to load in
  */
-void load_ent(GameWorld *gw, const char *path);
-void load_component(GameWorld *gw, const cJSON *comp);
+int8_t load_ent(GameWorld *gw, const char *path);
+int8_t load_component(GameWorld *gw, const cJSON *comp, int ent_id);
+
+int8_t init_ent_graphics(GameWorld *gw);
+
 #endif

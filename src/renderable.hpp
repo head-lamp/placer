@@ -6,5 +6,6 @@ struct Renderable {
     int active_frame;
     int num_frames;
     SDL_Rect *clips;
+    SDL_Texture *texture;
 };
 #endif

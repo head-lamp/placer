@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h> // bleh?
 #include <limits.h>
 #include <time.h>
 
@@ -32,9 +33,6 @@
 #include "graphics.hpp"
 #include "game_world.hpp"
 
-
-//entities
-#include "player.hpp"
 
 void run_game(void);
 bool save_game(char *path);

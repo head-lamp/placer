@@ -24,6 +24,7 @@ SDL_Texture* get_texture() {
 
 SDL_Texture* load_texture(const char* path) {
     SDL_Texture *tex = NULL;
+            printf("yup yup yup\n");
     SDL_Surface *surf = IMG_Load(path);
     if (surf == NULL) {
         printf("unable to load img %s SDL_image err: %s\n",
