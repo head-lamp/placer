@@ -32,6 +32,20 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
     //printf("%d\n", gw->comps.phys_components[0].x);
 }
 
+extern SDL_Renderer *renderer;
+int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
+    SDL_RenderClear(renderer);
+    for (int i = 0; i < gw->entities_total; i++) {
+        SDL_Rect rect = {0, 0, 32, 64};
+        if (gw->comps.rend_components[i].entity_id == i) {
+            SDL_RenderCopy(renderer, gw->comps.rend_components[i].texture, NULL, &rect);
+        }
+    }
+
+    SDL_RenderPresent(renderer);
+    return 0;
+}
+
 /*
 TODO
 I have a hunch that this function will likely be super duper slow

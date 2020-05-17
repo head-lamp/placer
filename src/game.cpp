@@ -39,7 +39,7 @@ void change_main_state(GameState state) {
 void draw(SDL_Event *e, int dt) {
     // clear at the start of the step?
     SDL_RenderClear(renderer);
-
+    /*
     // cycle through possible parts of game
     // and let those components draw
     // this will likely be functions like `draw_game()` or 
@@ -60,6 +60,7 @@ void draw(SDL_Event *e, int dt) {
             break;
     }
 
+    */
     // i guess for now always draw the log?
     draw_log(renderer, dt);
 
@@ -99,7 +100,13 @@ void run_game() {
         else {
             game_world_update(&gw, &e, dt);
         }
-        draw(&e, dt);
+
+        if (game_state != GAME) {
+            draw(&e, dt);
+        }
+        else {
+            game_world_draw(&gw, &e, dt);
+        }
 
         // always sleep for 1 ms _for now_
         // so max fps is 1000

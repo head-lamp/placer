@@ -9,6 +9,7 @@ struct GameWorld {
 };
 
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt);
+int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt);
 
 /* TODO
 this will likely need moreargs or something
