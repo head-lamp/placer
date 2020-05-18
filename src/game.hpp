@@ -24,6 +24,8 @@
 // components
 #include "physical.hpp"
 #include "renderable.hpp"
+#include "position.hpp"
+#include "player_input.hpp"
 
 #include "entities.hpp"
 

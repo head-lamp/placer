@@ -1,8 +1,10 @@
 components:
     -
+        name: position
+        x: 50
+        y: 50
+    -
         name: physical
-        x: 9
-        y: 0
         mass: 1
         vx: 0.0
         vy: 0.0
@@ -14,3 +16,8 @@ components:
         sprite_sheet_path: "assets/sprites/test_sprites/example_player.png"
         active_frame: 0
         num_frames: 0
+        # TODO just realized these are worthless?
+        w: 32
+        h: 64
+    -
+        name: player_input

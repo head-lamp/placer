@@ -93,7 +93,7 @@ void run_game() {
         current_time = SDL_GetTicks();
         dt = current_time - last_time;
         last_time = current_time;
-        // printf("%d\n", dt);
+        printf("%d\n", dt);
         if (game_state != GAME) {
             update(&e, dt);
         }

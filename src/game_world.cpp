@@ -29,6 +29,11 @@ void init_game_world(GameWorld *gw) {
 // oops
 // time for ecs?
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
+    int limit = 512;
+    gw->comps.pos_components[0].x += 1;
+    if (gw->comps.pos_components[0].x > limit) {
+        gw->comps.pos_components[0].x = 0;
+    }
     //printf("%d\n", gw->comps.phys_components[0].x);
 }
 
@@ -36,8 +41,20 @@ extern SDL_Renderer *renderer;
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
     SDL_RenderClear(renderer);
     for (int i = 0; i < gw->entities_total; i++) {
-        SDL_Rect rect = {0, 0, 32, 64};
-        if (gw->comps.rend_components[i].entity_id == i) {
+        Renderable *rend = &gw->comps.rend_components[i];
+        Position *pos = &gw->comps.pos_components[i];
+        SDL_Rect rect; // = {12, 12, 32, 64};
+        if (rend->entity_id == i && pos->entity_id == i) {
+            rect.x = pos->x;
+            rect.y = pos->y;
+            rect.w = rend->w;
+            rect.h = rend->h;
+            /*
+            printf("x = %d\n", rect.x);
+            printf("y = %d\n", rect.y);
+            printf("w = %d\n", rect.w);
+            printf("h = %d\n", rect.h);
+            */
             SDL_RenderCopy(renderer, gw->comps.rend_components[i].texture, NULL, &rect);
         }
     }
@@ -105,12 +122,17 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
     char *comp_name = cJSON_GetStringValue(item);
     Components comp_id = get_comp_id(comp_name);
     switch(comp_id) {
+        case POSITION:
+            printf("case: position\n");
+            Position pos;
+            pos.entity_id = ent_id;
+            pos.x = get_json_int(comp, "x");
+            pos.y = get_json_int(comp, "y");
+            gw->comps.pos_components[ent_id] = pos;
         case PHYSICAL:
             printf("case: phsyical\n");
             Physical phys;
             phys.entity_id = ent_id;
-            phys.x = get_json_int(comp, "x");
-            phys.y = get_json_int(comp, "y");
             phys.mass = get_json_int(comp, "mass");
             phys.vx = get_json_float(comp, "vx");
             phys.vy = get_json_float(comp, "vy");
@@ -125,6 +147,8 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             printf("case: renderable\n");
             Renderable rend;
             rend.entity_id = ent_id;
+            rend.w = get_json_int(comp, "w");
+            rend.h = get_json_int(comp, "h");
             rend.sprite_sheet_path = get_json_string(comp, "sprite_sheet_path");
             // rend.sprite_sheet_path = "assets/sprites/test_sprites/example_player.png";
             printf("id %d, path %s\n", ent_id, rend.sprite_sheet_path);
@@ -133,17 +157,20 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
 
             gw->comps.rend_components[ent_id] = rend;
             break;
+        case PLAYER_INPUT:
+            printf("case: player_input\n");
+            PlayerInput plyr;
+            plyr.entity_id = ent_id;
+            gw->comps.plyr_componets[ent_id] = plyr;
         case COMPONENTS_TOTAL:
             printf("didn't find anything basically\n");
             break;
         default:
             break;
     }
-    printf("ffs %s\n", gw->comps.rend_components[ent_id].sprite_sheet_path);
     item = NULL;
     comp_name = NULL;
     comp_name = NULL;
-    printf("ffs2 %s\n", gw->comps.rend_components[ent_id].sprite_sheet_path);
 
     return 0;
 }
@@ -163,8 +190,10 @@ int8_t init_ent_graphics(GameWorld *gw) {
 }
 
 const char *COMPONENTS_NAMES[] = {
+    "position",
     "physical",
     "renderable",
+    "player_input",
 };
 
 // TODO: slow?

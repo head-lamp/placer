@@ -5,6 +5,8 @@ struct Renderable {
     const char *sprite_sheet_path;
     int active_frame;
     int num_frames;
+    int w;
+    int h;
     SDL_Rect *clips;
     SDL_Texture *texture;
 };
