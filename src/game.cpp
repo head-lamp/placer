@@ -72,11 +72,11 @@ void run_game() {
     load_config();
     printf("hello\n");
 
-    int last_time = SDL_GetTicks();
-    int current_time = 0;
     int dt = 0;
 
     SDL_Event e;
+    int start = 0;
+    int end = 0;
 
     // test player
     // Player *p = (struct Player*)malloc(sizeof(Player));
@@ -84,16 +84,16 @@ void run_game() {
     GameWorld gw;
     init_game_world(&gw);
     bool running = true;
+    int cap = 1000/60;
     while (running) {
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 running = false;
             }
         }
-        current_time = SDL_GetTicks();
-        dt = current_time - last_time;
-        last_time = current_time;
-        printf("%d\n", dt);
+        start = SDL_GetTicks();
+
+        // printf("%d\n", dt);
         if (game_state != GAME) {
             update(&e, dt);
         }
@@ -110,7 +110,24 @@ void run_game() {
 
         // always sleep for 1 ms _for now_
         // so max fps is 1000
-        while(!SDL_TICKS_PASSED(SDL_GetTicks(), last_time+1));
+        /*
+        while(!SDL_TICKS_PASSED(SDL_GetTicks(), last_time+16));
+        */
+
+        end = SDL_GetTicks();
+        dt = end - start;
+        // printf("cap = %d dt = %d\n", cap, dt);
+        if (dt < 16) {
+            // printf("16 - %d = %d\n", dt, 16 - dt);
+            //printf("delaying, dt was %d\n", dt);
+            SDL_Delay(16 - dt);
+        }
+        if (dt >= 16) {
+            printf("target = 16, dt = %d\n", dt);
+
+            printf("dt was %d\n", dt);
+        }
+        dt = 0;
     }
 
     close();

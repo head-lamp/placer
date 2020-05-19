@@ -40,21 +40,18 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
 extern SDL_Renderer *renderer;
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
     SDL_RenderClear(renderer);
+    Renderable *rend;
+    Position *pos;
+    SDL_Rect rect;
     for (int i = 0; i < gw->entities_total; i++) {
-        Renderable *rend = &gw->comps.rend_components[i];
-        Position *pos = &gw->comps.pos_components[i];
-        SDL_Rect rect; // = {12, 12, 32, 64};
+        rend = &gw->comps.rend_components[i];
+        pos = &gw->comps.pos_components[i];
+        // SDL_Rect rect; // = {12, 12, 32, 64};
         if (rend->entity_id == i && pos->entity_id == i) {
             rect.x = pos->x;
             rect.y = pos->y;
             rect.w = rend->w;
             rect.h = rend->h;
-            /*
-            printf("x = %d\n", rect.x);
-            printf("y = %d\n", rect.y);
-            printf("w = %d\n", rect.w);
-            printf("h = %d\n", rect.h);
-            */
             SDL_RenderCopy(renderer, gw->comps.rend_components[i].texture, NULL, &rect);
         }
     }
