@@ -1,8 +1,8 @@
 components:
     -
         name: position
-        x: 50
-        y: 50
+        x: 50.0
+        y: 50.0
     -
         name: physical
         mass: 1
@@ -11,6 +11,7 @@ components:
         coll_shapes: null
         active_shape: 0
         num_shapes: 0
+        velocity: 2
     -
         name: renderable
         sprite_sheet_path: "assets/sprites/test_sprites/example_player.png"

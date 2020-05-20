@@ -6,7 +6,10 @@ struct GameWorld {
     int entity_list[INITIAL_COMPONENT_SIZE];
     int entities_total;
     ComponentList comps;
+
+    int player_id;
 };
+
 
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt);
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt);
@@ -29,4 +32,5 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int ent_id);
 
 int8_t init_ent_graphics(GameWorld *gw);
 
+int8_t handle_input(GameWorld *gw, SDL_Event *e);
 #endif

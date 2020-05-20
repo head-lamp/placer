@@ -17,6 +17,8 @@ void init_game_world(GameWorld *gw) {
     // todo this will eventually be a loop
     // int id = gw->entities_total++;
     load_ent(gw, "ents/player.json");
+    gw->player_id = gw->entities_total - 1;
+    printf("%d\n", gw->entities_total);
 
     init_ent_graphics(gw);
     // init graphics
@@ -29,11 +31,16 @@ void init_game_world(GameWorld *gw) {
 // oops
 // time for ecs?
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
+
+    // will set vx and vy on pos components for the player
+    handle_input(gw, e);
+    /*
     int limit = 512;
     gw->comps.pos_components[0].x += 1;
     if (gw->comps.pos_components[0].x > limit) {
         gw->comps.pos_components[0].x = 0;
     }
+    */
     //printf("%d\n", gw->comps.phys_components[0].x);
 }
 
@@ -209,4 +216,44 @@ Components get_comp_id(const char *comp_name) {
     // couldn't find it?
     // just return the total
     return COMPONENTS_TOTAL;
+}
+
+/*
+TODO right now just finds the player object and does stuff to that directly
+this could be decoupled probably
+who knows
+ */
+int8_t handle_input(GameWorld *gw, SDL_Event *e) {
+    // TODO this should be cached on gw or something for easier access
+    // AHHHHHHH
+    /*
+    might not actually need playerinput component?
+    who knows
+    PlayerInput *pi = &gw->comps.plyr_componets[gw->player_id];
+    */
+    if (e->type == SDL_KEYDOWN && e->key.repeat == 0) {
+        switch(e->key.keysym.sym) {
+            case SDLK_UP:
+                break;
+            case SDLK_DOWN:
+                break;
+            case SDLK_LEFT:
+                break;
+            case SDLK_RIGHT:
+                break;
+        }
+    }
+    else if(e->type == SDL_KEYUP && e->key.repeat == 0) {
+        switch(e->key.keysym.sym) {
+            case SDLK_UP:
+                break;
+            case SDLK_DOWN:
+                break;
+            case SDLK_LEFT:
+                break;
+            case SDLK_RIGHT:
+                break;
+        }
+    }
+    return 0;
 }
