@@ -73,12 +73,9 @@ I have a hunch that this function will likely be super duper slow
 run a debugger here and step through the function and see just how bad it gets
  */
 int8_t load_ent(GameWorld *gw, const char *path) {
-    printf("top of load_ent\n");
     int ent_id = gw->entities_total;
-    printf("ent_id = %d\n", ent_id);
     const char *entdata_file;
     entdata_file = read_file(path);
-    printf("%s\n", entdata_file);
     const cJSON *entdata = cJSON_Parse(entdata_file);
     if (entdata == NULL) {
         printf("cjson err: %s\n", cJSON_GetErrorPtr());
@@ -112,7 +109,6 @@ int8_t load_ent(GameWorld *gw, const char *path) {
     // do this check offline basically?
     // idk
     for (int i = 0; i < cJSON_GetArraySize(components); i++) {
-        printf("%d\n", i);
         comp = cJSON_GetArrayItem(components, i);
         load_component(gw, comp, ent_id);
     }
@@ -130,21 +126,19 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             printf("case: position\n");
             Position pos;
             pos.entity_id = ent_id;
-            pos.x = get_json_int(comp, "x");
-            pos.y = get_json_int(comp, "y");
+            pos.x = get_json_float(comp, "x");
+            pos.y = get_json_float(comp, "y");
+            pos.vx = get_json_float(comp, "vx");
+            pos.vy = get_json_float(comp, "vy");
             gw->comps.pos_components[ent_id] = pos;
         case PHYSICAL:
             printf("case: phsyical\n");
             Physical phys;
             phys.entity_id = ent_id;
             phys.mass = get_json_int(comp, "mass");
-            phys.vx = get_json_float(comp, "vx");
-            phys.vy = get_json_float(comp, "vy");
             phys.num_shapes = get_json_int(comp, 0);
+            phys.velocity = get_json_float(comp, "velocity");
 
-            printf("x: %d\n", get_json_int(comp, "x"));
-            printf("y: %d\n", get_json_int(comp, "y"));
-            printf("mass: %d\n", get_json_int(comp, "mass"));
             gw->comps.phys_components[ent_id] = phys;
             break;
         case RENDERABLE:
@@ -231,19 +225,30 @@ int8_t handle_input(GameWorld *gw, SDL_Event *e) {
     who knows
     PlayerInput *pi = &gw->comps.plyr_componets[gw->player_id];
     */
+
+    /*
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+    printf("pressing space? %d",state[SDL_SCANCODE_SPACE]);
+    */
+    int p_id=gw->player_id;
+    Position *pos = &gw->comps.pos_components[p_id];
+    Physical *phys = &gw->comps.phys_components[p_id];
     if (e->type == SDL_KEYDOWN && e->key.repeat == 0) {
+    printf("here\n");
         switch(e->key.keysym.sym) {
-            case SDLK_UP:
+            case SDLK_w:
+                printf("up\n");
                 break;
-            case SDLK_DOWN:
+            case SDLK_s:
                 break;
-            case SDLK_LEFT:
+            case SDLK_a:
                 break;
-            case SDLK_RIGHT:
+            case SDLK_d:
                 break;
         }
     }
     else if(e->type == SDL_KEYUP && e->key.repeat == 0) {
+        printf("yo");
         switch(e->key.keysym.sym) {
             case SDLK_UP:
                 break;

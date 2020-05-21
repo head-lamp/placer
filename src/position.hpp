@@ -1,5 +1,7 @@
 struct Position {
     int entity_id;
-    int x;
-    int y;
+    float x;
+    float y;
+    float vx;
+    float vy;
 };

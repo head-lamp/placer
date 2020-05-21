@@ -90,8 +90,12 @@ void run_game() {
             if (e.type == SDL_QUIT) {
                 running = false;
             }
+            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
+                printf("pressing a keydown");
+            }
         }
         start = SDL_GetTicks();
+
 
         // printf("%d\n", dt);
         if (game_state != GAME) {
@@ -122,11 +126,13 @@ void run_game() {
             //printf("delaying, dt was %d\n", dt);
             SDL_Delay(16 - dt);
         }
+        /*
         if (dt >= 16) {
             printf("target = 16, dt = %d\n", dt);
 
             printf("dt was %d\n", dt);
         }
+        */
         dt = 0;
     }
 

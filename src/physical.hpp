@@ -3,11 +3,8 @@
 
 struct Physical {
     int entity_id;
-    int x;
-    int y;
     int mass;
-    float vx;
-    float vy;
+    float velocity;
 
     SDL_Rect *coll_shapes;
     int active_shape;
