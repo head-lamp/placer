@@ -32,5 +32,5 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int ent_id);
 
 int8_t init_ent_graphics(GameWorld *gw);
 
-int8_t handle_input(GameWorld *gw, SDL_Event *e);
+int8_t update_player(GameWorld *gw, SDL_Event *e, int dt);
 #endif

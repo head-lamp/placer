@@ -33,7 +33,7 @@ void init_game_world(GameWorld *gw) {
 void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
 
     // will set vx and vy on pos components for the player
-    handle_input(gw, e);
+    update_player(gw, e, dt);
     /*
     int limit = 512;
     gw->comps.pos_components[0].x += 1;
@@ -217,7 +217,7 @@ TODO right now just finds the player object and does stuff to that directly
 this could be decoupled probably
 who knows
  */
-int8_t handle_input(GameWorld *gw, SDL_Event *e) {
+int8_t update_player(GameWorld *gw, SDL_Event *e, int dt) {
     // TODO this should be cached on gw or something for easier access
     // AHHHHHHH
     /*
@@ -233,32 +233,20 @@ int8_t handle_input(GameWorld *gw, SDL_Event *e) {
     int p_id=gw->player_id;
     Position *pos = &gw->comps.pos_components[p_id];
     Physical *phys = &gw->comps.phys_components[p_id];
-    if (e->type == SDL_KEYDOWN && e->key.repeat == 0) {
-    printf("here\n");
-        switch(e->key.keysym.sym) {
-            case SDLK_w:
-                printf("up\n");
-                break;
-            case SDLK_s:
-                break;
-            case SDLK_a:
-                break;
-            case SDLK_d:
-                break;
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    // if (e->type == SDL_KEYDOWN || e->type == SDL_KEYUP) {
+        if (keystate[SDL_SCANCODE_W]) {
+            pos->y -= phys->velocity + dt;
         }
-    }
-    else if(e->type == SDL_KEYUP && e->key.repeat == 0) {
-        printf("yo");
-        switch(e->key.keysym.sym) {
-            case SDLK_UP:
-                break;
-            case SDLK_DOWN:
-                break;
-            case SDLK_LEFT:
-                break;
-            case SDLK_RIGHT:
-                break;
+        if (keystate[SDL_SCANCODE_S]) {
+            pos->y += phys->velocity + dt;
         }
-    }
+        if (keystate[SDL_SCANCODE_A]) {
+            pos->x -= phys->velocity + dt;
+        }
+        if (keystate[SDL_SCANCODE_D]) {
+            pos->x += phys->velocity + dt;
+        }
+    // }
     return 0;
 }
