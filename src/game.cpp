@@ -74,7 +74,6 @@ void run_game() {
 
     int dt = 0;
 
-    SDL_Event e;
     int start = 0;
     int end = 0;
 
@@ -85,25 +84,23 @@ void run_game() {
     init_game_world(&gw);
     bool running = true;
     int cap = 1000/60;
+    SDL_Event e;
     while (running) {
+        start = SDL_GetTicks();
         while (SDL_PollEvent(&e) != 0) {
             if (e.type == SDL_QUIT) {
                 running = false;
             }
-            if (e.type == SDL_KEYDOWN && e.key.repeat == 0) {
-                printf("pressing a keydown");
+            // printf("%d\n", dt);
+            if (game_state != GAME) {
+                update(&e, dt);
             }
-        }
-        start = SDL_GetTicks();
+            else {
+                game_world_update(&gw, &e, dt);
+            }
 
+        }
 
-        // printf("%d\n", dt);
-        if (game_state != GAME) {
-            update(&e, dt);
-        }
-        else {
-            game_world_update(&gw, &e, dt);
-        }
 
         if (game_state != GAME) {
             draw(&e, dt);

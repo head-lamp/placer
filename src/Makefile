@@ -1,7 +1,7 @@
 cc = g++
 compiler_flags = -w -v
 # linker_flags = -I include -L lib -l SDL2-2.0.0 -lSDL2_image -lSDL2_
-linker_flags = -I include -L lib -l SDL2-2.0.0 -lSDL2_image -lSDL2_ttf
+linker_flags = -I /usr/local/include -L /usr/local/lib -lSDL2 -lSDL2_image -lSDL2_ttf
 
 out=game
 
