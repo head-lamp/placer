@@ -92,14 +92,14 @@ void run_game() {
                 running = false;
             }
             // printf("%d\n", dt);
+
+        }
             if (game_state != GAME) {
                 update(&e, dt);
             }
             else {
                 game_world_update(&gw, &e, dt);
             }
-
-        }
 
 
         if (game_state != GAME) {
