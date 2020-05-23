@@ -59,7 +59,7 @@ int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
             rect.y = pos->y;
             rect.w = rend->w;
             rect.h = rend->h;
-            SDL_RenderCopy(renderer, gw->comps.rend_components[i].texture, NULL, &rect);
+            SDL_RenderCopy(renderer, (*rend).texture, NULL, &rect);
         }
     }
 
