@@ -44,13 +44,18 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
     //printf("%d\n", gw->comps.phys_components[0].x);
 }
 
+/*
+TODO profile this function using references vs not using references
+for the rend or pos
+if we can afford the cycles and space we can get rid of the pointers here
+ */
 extern SDL_Renderer *renderer;
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
     SDL_RenderClear(renderer);
     Renderable *rend;
     Position *pos;
     SDL_Rect rect;
-    for (int i = 0; i < gw->entities_total; i++) {
+    for (size_t i = 0; i < gw->entities_total; i++) {
         rend = &gw->comps.rend_components[i];
         pos = &gw->comps.pos_components[i];
         // SDL_Rect rect; // = {12, 12, 32, 64};
@@ -218,35 +223,23 @@ this could be decoupled probably
 who knows
  */
 int8_t update_player(GameWorld *gw, SDL_Event *e, int dt) {
-    // TODO this should be cached on gw or something for easier access
-    // AHHHHHHH
-    /*
-    might not actually need playerinput component?
-    who knows
-    PlayerInput *pi = &gw->comps.plyr_componets[gw->player_id];
-    */
-
-    /*
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-    printf("pressing space? %d",state[SDL_SCANCODE_SPACE]);
-    */
     int p_id=gw->player_id;
     Position *pos = &gw->comps.pos_components[p_id];
     Physical *phys = &gw->comps.phys_components[p_id];
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-    // if (e->type == SDL_KEYDOWN || e->type == SDL_KEYUP) {
-        if (keystate[SDL_SCANCODE_W]) {
-            pos->y -= phys->velocity + dt;
-        }
-        if (keystate[SDL_SCANCODE_S]) {
-            pos->y += phys->velocity + dt;
-        }
-        if (keystate[SDL_SCANCODE_A]) {
-            pos->x -= phys->velocity + dt;
-        }
-        if (keystate[SDL_SCANCODE_D]) {
-            pos->x += phys->velocity + dt;
-        }
-    // }
+
+    if (keystate[SDL_SCANCODE_W]) {
+        pos->y -= phys->velocity + dt;
+    }
+    if (keystate[SDL_SCANCODE_S]) {
+        pos->y += phys->velocity + dt;
+    }
+    if (keystate[SDL_SCANCODE_A]) {
+        pos->x -= phys->velocity + dt;
+    }
+    if (keystate[SDL_SCANCODE_D]) {
+        pos->x += phys->velocity + dt;
+    }
+
     return 0;
 }
