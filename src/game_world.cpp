@@ -43,6 +43,12 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
     }
     */
     //printf("%d\n", gw->comps.phys_components[0].x);
+    /*
+    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].x);
+    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].y);
+    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].w);
+    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].h);
+    */
 }
 
 /*
@@ -144,6 +150,7 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             phys.mass = get_json_int(comp, "mass");
             phys.num_shapes = get_json_int(comp, 0);
             phys.velocity = get_json_float(comp, "velocity");
+            phys.coll_shapes = get_rects(comp, "coll_shapes");
 
             gw->comps.phys_components[ent_id] = phys;
             break;
@@ -206,7 +213,6 @@ const char *COMPONENTS_NAMES[] = {
 Components get_comp_id(const char *comp_name) {
     char * cn;
 
-    printf("k lets hope this shit works\n");
     for (int i=0; i < COMPONENTS_TOTAL; i++) {
         if (strcmp(COMPONENTS_NAMES[i], comp_name) == 0) {
             return (Components)i;

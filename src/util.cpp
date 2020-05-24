@@ -60,3 +60,24 @@ const float get_json_float(const cJSON *obj, const char *key) {
     }
     return (float)cJSON_GetNumberValue(item);
 }
+
+SDL_Rect* get_rects(const cJSON *obj, const char *key) {
+    cJSON *arrays = cJSON_GetObjectItem(obj, key);
+    SDL_Rect *rects = NULL;
+    if (arrays == NULL) {
+        return rects;
+    }
+    size_t sz = cJSON_GetArraySize(arrays);
+    rects = (SDL_Rect *)malloc(sizeof(SDL_Rect) * sz);
+    printf("arr size = %lu\n", sz);
+    for (size_t i=0; i < sz; i++) {
+        cJSON *arr = cJSON_GetArrayItem(arrays, i);
+        SDL_Rect rect = {};
+        rect.x = (int)cJSON_GetNumberValue(cJSON_GetArrayItem(arr, 0));
+        rect.y = (int)cJSON_GetNumberValue(cJSON_GetArrayItem(arr, 1));
+        rect.w = (int)cJSON_GetNumberValue(cJSON_GetArrayItem(arr, 2));
+        rect.h = (int)cJSON_GetNumberValue(cJSON_GetArrayItem(arr, 3));
+        rects[i] = rect;
+    }
+    return rects;
+}

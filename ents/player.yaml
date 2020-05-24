@@ -8,7 +8,8 @@ components:
     -
         name: physical
         mass: 1
-        coll_shapes: null
+        coll_shapes:
+            - [0,0,32,64]
         active_shape: 0
         num_shapes: 0
         velocity: 2
@@ -17,8 +18,9 @@ components:
         sprite_sheet_path: "assets/sprites/test_sprites/example_player.png"
         active_frame: 0
         num_frames: 0
-        # TODO just realized these are worthless?
+        # TODO just realized these are worthless? eh maybe not?
         w: 32
         h: 64
     -
+        # TODO this might be useless
         name: player_input
