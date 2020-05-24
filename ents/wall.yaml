@@ -17,5 +17,5 @@ components:
         sprite_sheet_path: "assets/sprites/test_sprites/example_block.png"
         active_frame: 0
         num_frames: 0
-        w: 32
-        h: 32
+        w: 64
+        h: 64
