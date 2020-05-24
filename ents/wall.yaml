@@ -1,0 +1,21 @@
+components:
+    -
+        name: position
+        x: 90.0
+        y: 90.0
+        vx: 0.0
+        vy: 0.0
+    -
+        name: physical
+        mass: 10
+        coll_shapes: null
+        active_shape: 0
+        num_shapes: 0
+        velocity: 2
+    -
+        name: renderable
+        sprite_sheet_path: "assets/sprites/test_sprites/example_block.png"
+        active_frame: 0
+        num_frames: 0
+        w: 32
+        h: 32

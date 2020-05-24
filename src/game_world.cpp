@@ -20,6 +20,7 @@ void init_game_world(GameWorld *gw) {
     gw->player_id = gw->entities_total - 1;
     printf("%d\n", gw->entities_total);
 
+    load_ent(gw, "ents/wall.json");
     init_ent_graphics(gw);
     // init graphics
     // set textures etc
