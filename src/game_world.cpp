@@ -35,6 +35,8 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
 
     // will set vx and vy on pos components for the player
     update_player(gw, e, dt);
+    handle_collisions(gw, dt);
+    move_ents(gw, dt);
     /*
     int limit = 512;
     gw->comps.pos_components[0].x += 1;
@@ -60,15 +62,15 @@ extern SDL_Renderer *renderer;
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
     SDL_RenderClear(renderer);
     Renderable *rend;
-    Position *pos;
+    Physical *phys;
     SDL_Rect rect;
     for (size_t i = 0; i < gw->entities_total; i++) {
         rend = &gw->comps.rend_components[i];
-        pos = &gw->comps.pos_components[i];
+        phys = &gw->comps.phys_components[i];
         // SDL_Rect rect; // = {12, 12, 32, 64};
-        if (rend->entity_id == i && pos->entity_id == i) {
-            rect.x = pos->x;
-            rect.y = pos->y;
+        if (rend->entity_id == i && phys->entity_id == i) {
+            rect.x = phys->x;
+            rect.y = phys->y;
             rect.w = rend->w;
             rect.h = rend->h;
             SDL_RenderCopy(renderer, (*rend).texture, NULL, &rect);
@@ -138,10 +140,6 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             printf("case: position\n");
             Position pos;
             pos.entity_id = ent_id;
-            pos.x = get_json_float(comp, "x");
-            pos.y = get_json_float(comp, "y");
-            pos.vx = get_json_float(comp, "vx");
-            pos.vy = get_json_float(comp, "vy");
             gw->comps.pos_components[ent_id] = pos;
         case PHYSICAL:
             printf("case: phsyical\n");
@@ -150,7 +148,13 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             phys.mass = get_json_int(comp, "mass");
             phys.num_shapes = get_json_int(comp, 0);
             phys.velocity = get_json_float(comp, "velocity");
+            phys.v = phys.velocity;
             phys.coll_shapes = get_rects(comp, "coll_shapes");
+            phys.active_shape = 0;
+            phys.x = get_json_float(comp, "x");
+            phys.y = get_json_float(comp, "y");
+            phys.vx = get_json_float(comp, "vx");
+            phys.vy = get_json_float(comp, "vy");
 
             gw->comps.phys_components[ent_id] = phys;
             break;
@@ -231,22 +235,80 @@ who knows
  */
 int8_t update_player(GameWorld *gw, SDL_Event *e, int dt) {
     int p_id=gw->player_id;
-    Position *pos = &gw->comps.pos_components[p_id];
+    // Position *pos = &gw->comps.pos_components[p_id];
     Physical *phys = &gw->comps.phys_components[p_id];
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
 
     if (keystate[SDL_SCANCODE_W]) {
-        pos->y -= phys->velocity + dt;
+        phys->y -= phys->v + dt;
     }
     if (keystate[SDL_SCANCODE_S]) {
-        pos->y += phys->velocity + dt;
+        phys->y += phys->v + dt;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        pos->x -= phys->velocity + dt;
+        phys->x -= phys->v + dt;
     }
     if (keystate[SDL_SCANCODE_D]) {
-        pos->x += phys->velocity + dt;
+        phys->x += phys->v + dt;
     }
 
+    return 0;
+}
+
+
+/*
+TODO FIXME:
+    this branching in the nested for loop
+    might be _super dangerous and slow_
+ */
+int8_t handle_collisions(GameWorld *gw, int dt) {
+    size_t total_ents = gw->entities_total;
+    Physical *phys_a = NULL;
+    Physical *phys_b = NULL;
+
+    for (size_t a=0; a < gw->entities_total; a++) {
+        phys_a = &gw->comps.phys_components[a];
+        if (phys_a->entity_id != a) {
+            continue;
+        }
+        const SDL_Rect rect_a = translate_rect(&phys_a->coll_shapes[phys_a->active_shape], phys_a);
+        // const SDL_Rect rect_a = phys_a->coll_shapes[phys_a->active_shape];
+
+        for (size_t b=0; b < gw->entities_total; b++) {
+            phys_b = &gw->comps.phys_components[b];
+            if (phys_b->entity_id != b || a == b) {
+                continue;
+            }
+            const SDL_Rect rect_b = translate_rect(&phys_b->coll_shapes[phys_b->active_shape], phys_b);
+            // const SDL_Rect rect_b = phys_b->coll_shapes[phys_b->active_shape];
+            if (SDL_HasIntersection(&rect_a, &rect_b) == true) {
+                // phys_a->v = -phys_a->v;
+                printf("before phys_a->x = %f\n", phys_a->x);
+                printf("before phys_a->vx = %f\n", phys_a->vx);
+                phys_a->x -= phys_a->vx;
+                phys_a->x -= phys_a->vy;
+                printf("after phys_a->x = %f\n", phys_a->x);
+                printf("after phys_a->vx = %f\n", phys_a->vx);
+            }
+            else {
+                phys_a->v = phys_a->velocity;
+            }
+        }
+    }
+
+    return 0;
+}
+
+const SDL_Rect translate_rect(SDL_Rect *rect, Physical *phys) {
+    SDL_Rect const res = {
+        rect->x + (int)phys->x + (int)phys->vx,
+        rect->y + (int)phys->y + (int)phys->vy,
+        rect->w,
+        rect->h
+    };
+    return res;
+}
+
+int8_t move_ents(GameWorld *gw, int dt) {
     return 0;
 }

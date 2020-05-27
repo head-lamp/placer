@@ -123,13 +123,11 @@ void run_game() {
             //printf("delaying, dt was %d\n", dt);
             SDL_Delay(16 - dt);
         }
-        /*
         if (dt >= 16) {
             printf("target = 16, dt = %d\n", dt);
 
             printf("dt was %d\n", dt);
         }
-        */
         dt = 0;
     }
 

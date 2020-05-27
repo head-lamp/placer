@@ -11,8 +11,7 @@ struct GameWorld {
 };
 
 
-void game_world_update(GameWorld *gw, SDL_Event *e, int dt);
-int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt);
+void game_world_update(GameWorld *gw, SDL_Event *e, int dt); int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt);
 
 /* TODO
 this will likely need moreargs or something
@@ -33,4 +32,9 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int ent_id);
 int8_t init_ent_graphics(GameWorld *gw);
 
 int8_t update_player(GameWorld *gw, SDL_Event *e, int dt);
+const SDL_Rect translate_rect(SDL_Rect *rect, Physical *phys);
+
+int8_t handle_collisions(GameWorld *gw, int dt);
+int8_t move_ents(GameWorld *gw, int dt);
+
 #endif
