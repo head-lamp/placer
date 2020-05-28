@@ -7,6 +7,7 @@ void init_game_world(GameWorld *gw) {
     // init struct
     printf("init'ing game world\n");
 
+    printf("testotesto\n");
 
     // go through components and mark em all as null
 
@@ -35,8 +36,8 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
 
     // will set vx and vy on pos components for the player
     update_player(gw, e, dt);
-    handle_collisions(gw, dt);
     move_ents(gw, dt);
+    handle_collisions(gw, dt);
     /*
     int limit = 512;
     gw->comps.pos_components[0].x += 1;
@@ -149,6 +150,7 @@ int8_t load_component(GameWorld *gw, const cJSON *comp, int  ent_id) {
             phys.num_shapes = get_json_int(comp, 0);
             phys.velocity = get_json_float(comp, "velocity");
             phys.v = phys.velocity;
+            phys.max_velocity = get_json_float(comp, "max_velocity");
             phys.coll_shapes = get_rects(comp, "coll_shapes");
             phys.active_shape = 0;
             phys.x = get_json_float(comp, "x");
@@ -238,18 +240,26 @@ int8_t update_player(GameWorld *gw, SDL_Event *e, int dt) {
     // Position *pos = &gw->comps.pos_components[p_id];
     Physical *phys = &gw->comps.phys_components[p_id];
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    phys->vx = 0;
+    phys->vy = 0;
 
     if (keystate[SDL_SCANCODE_W]) {
-        phys->y -= phys->v + dt;
+        phys->vy -= phys->v + dt;
     }
     if (keystate[SDL_SCANCODE_S]) {
-        phys->y += phys->v + dt;
+        phys->vy += phys->v + dt;
+    }
+    if (!keystate[SDL_SCANCODE_S]&&!keystate[SDL_SCANCODE_W]) {
+        phys->vy = 0;
     }
     if (keystate[SDL_SCANCODE_A]) {
-        phys->x -= phys->v + dt;
+        phys->vx -= phys->v + dt;
     }
     if (keystate[SDL_SCANCODE_D]) {
-        phys->x += phys->v + dt;
+        phys->vx += phys->v + dt;
+    }
+    if (!keystate[SDL_SCANCODE_A] && !keystate[SDL_SCANCODE_D]) {
+        phys->vx = 0;
     }
 
     return 0;
@@ -285,8 +295,8 @@ int8_t handle_collisions(GameWorld *gw, int dt) {
                 // phys_a->v = -phys_a->v;
                 printf("before phys_a->x = %f\n", phys_a->x);
                 printf("before phys_a->vx = %f\n", phys_a->vx);
-                phys_a->x -= phys_a->vx;
-                phys_a->x -= phys_a->vy;
+                phys_a->x -= 1 * phys_a->vx;
+                phys_a->y -= 1 * phys_a->vy;
                 printf("after phys_a->x = %f\n", phys_a->x);
                 printf("after phys_a->vx = %f\n", phys_a->vx);
             }
@@ -301,8 +311,8 @@ int8_t handle_collisions(GameWorld *gw, int dt) {
 
 const SDL_Rect translate_rect(SDL_Rect *rect, Physical *phys) {
     SDL_Rect const res = {
-        rect->x + (int)phys->x + (int)phys->vx,
-        rect->y + (int)phys->y + (int)phys->vy,
+        rect->x + (int)phys->x,
+        rect->y + (int)phys->y,
         rect->w,
         rect->h
     };
@@ -310,5 +320,14 @@ const SDL_Rect translate_rect(SDL_Rect *rect, Physical *phys) {
 }
 
 int8_t move_ents(GameWorld *gw, int dt) {
+    Physical *phys;
+    for (size_t i=0; i < gw->entities_total; i++) {
+        phys = &gw->comps.phys_components[i];
+        if (phys->entity_id != i) {
+            continue;
+        }
+        phys->x += phys->vx;
+        phys->y += phys->vy;
+    }
     return 0;
 }

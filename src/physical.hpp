@@ -7,6 +7,7 @@ struct Physical {
     // initial velocity
     float velocity;
     float v;
+    float max_velocity;
 
     SDL_Rect *coll_shapes;
     int active_shape;
