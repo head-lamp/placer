@@ -20,6 +20,7 @@
 
 // my libs
 #include "util.hpp"
+#include "map.hpp"
 
 // components
 #include "physical.hpp"

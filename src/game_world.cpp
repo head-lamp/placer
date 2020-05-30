@@ -14,6 +14,8 @@ void init_game_world(GameWorld *gw) {
 
     gw->entities_total = 0;
 
+    load_map("assets/maps/test_maps/test_map0.json");
+
     // add entities
     // todo this will eventually be a loop
     // int id = gw->entities_total++;
@@ -127,6 +129,8 @@ int8_t load_ent(GameWorld *gw, const char *path) {
         comp = cJSON_GetArrayItem(components, i);
         load_component(gw, comp, ent_id);
     }
+    free((char *)entdata_file);
+    printf("entdata file = %s\n", entdata_file);
     return 0;
 }
 
