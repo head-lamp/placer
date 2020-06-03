@@ -25,6 +25,22 @@ const char* read_file(const char *path) {
     return txt;
 }
 
+const char* strip_exts(const char *path) {
+    size_t i = 0;
+    while (path[i] != '.' && path[i] != '\0') {
+        i++;
+    }
+    // i will be at '.' now
+    // malloc
+    char *res = (char *)malloc(sizeof(char) * i);
+    for (size_t x = 0; x < i; x++) {
+        res[x] = path[x];
+    }
+    res[i] = '\0';
+    printf("%s\n",res);
+    return res;
+}
+
 // 0 is true here
 int strcmp(char const *a, char const *b) {
     while (*a) {
@@ -35,6 +51,33 @@ int strcmp(char const *a, char const *b) {
         b++;
     }
     return *a - *b;
+}
+
+size_t strlen(const char *path) {
+    size_t i = 0;
+    while (path[i] != '\0') {
+        i++;
+    }
+    return i;
+}
+
+const char* strcat(const char *a, const char *b) {
+    size_t a_len = strlen(a);
+    size_t b_len = strlen(b);
+
+    size_t len = a_len + b_len + 1;
+    char* cat = (char *)malloc(sizeof(char) * len);
+
+    for (size_t i = 0; i < a_len; i++) {
+        cat[i] = a[i];
+    }
+    for (size_t i = 0; i < b_len; i++) {
+        cat[i+a_len] = b[i];
+    }
+
+    cat[len] = '\0';
+
+    return (const char *)cat;
 }
 
 const char *get_json_string(const cJSON *obj, const char *key) {

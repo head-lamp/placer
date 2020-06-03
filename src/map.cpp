@@ -2,12 +2,31 @@
 
 int8_t load_map(const char *path) {
     const char *map_file = read_file(path);
-    const cJSON *map_data = cJSON_Parse(map_file);
+    printf("map_file = %s\n", map_file);
+    size_t map_file_len = strlen(map_file);
+    printf("map_file_len = %lu\n", map_file_len);
+    const cJSON *map_data = cJSON_ParseWithOpts(map_file, 0, 1);
     if (map_data == NULL) {
         printf("map data is null\n");
+        const char *error_ptr = cJSON_GetErrorPtr();
+        if (error_ptr != NULL) {
+            printf("Error before: %s\n", error_ptr);
+        }
     }
-    const cJSON *tile_sets = cJSON_GetObjectItem(map_data, "tilesets");
-    size_t tile_sets_size = cJSON_GetArraySize(tile_sets);
+
+    // load tile_sets from tmx to json :)
+    const cJSON *tile_sets_tmx = cJSON_GetObjectItem(map_data, "tilesets");
+    size_t tile_sets_tmx_size = cJSON_GetArraySize(tile_sets_tmx);
+    for (size_t i=0; i < tile_sets_tmx_size; i++) {
+        cJSON *tile_set_tmx = cJSON_GetArrayItem(tile_sets_tmx, i);
+        char *tmx_name =  cJSON_GetStringValue(cJSON_GetObjectItem(tile_set_tmx, "source"));
+        printf("strip_exts res = %s\n", strip_exts(tmx_name));
+        printf("tmx_name = %s\n", tmx_name);
+        // char *file_name = cJSON_GetStringValue(cJSON_GetArrayItem(tile_sets_tmx, i));
+    }
+
+    printf("tile_sets_size = %lu\n",tile_sets_tmx_size);
+
     const cJSON *layers = cJSON_GetObjectItem(map_data, "layers");
     size_t layers_size = cJSON_GetArraySize(layers);
     for (size_t i=0; i < layers_size; i++) {
@@ -23,7 +42,6 @@ int8_t load_map(const char *path) {
                 break;
         }
     }
-    printf("tile_sets_size = %lu\n",tile_sets_size);
     // iterate through walls and shit
 
     // iterate trhough object lists?
