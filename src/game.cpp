@@ -7,9 +7,9 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern TTF_Font *nfont;
 
+GameWorld gw;
 
-
-int game_state = GAME;
+int game_state;
 
 void tick(SDL_Event *e) {
     float dt;
@@ -18,6 +18,7 @@ void tick(SDL_Event *e) {
 void update(SDL_Event *e, int dt) {
     switch(game_state) {
         case STARTUP:
+            update_startup(e, dt);
             break;
         case START_MENU:
             break;
@@ -34,6 +35,23 @@ void update(SDL_Event *e, int dt) {
 }
 
 void change_main_state(GameState state) {
+    printf("GAME = %d\n", GAME);
+    printf("gamestate? %d\n", state);
+    printf("game == gamestate? %d\n", GAME==state);
+
+    // enter new state
+    switch(state) {
+        case STARTUP:
+            init_startup();
+            break;
+        case GAME:
+            printf("switching to game world\n");
+            init_game_world(&gw);
+            break;
+        default:
+            break;
+    }
+    game_state = state;
 }
 
 void draw(SDL_Event *e, int dt) {
@@ -80,8 +98,8 @@ void run_game() {
     // test player
     // Player *p = (struct Player*)malloc(sizeof(Player));
     // p->physical.x = 0;
-    GameWorld gw;
-    init_game_world(&gw);
+    change_main_state(STARTUP);
+    // init_game_world(&gw);
     bool running = true;
     int cap = 1000/60;
     SDL_Event e;

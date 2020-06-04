@@ -1,5 +1,16 @@
 #ifndef GAME_HEADER
 #define GAME_HEADER
+enum GameState{
+    STARTUP,
+    START_MENU,
+    GAME_OPTIONS,
+    CREDITS,
+    LEVEL_START,
+    GAME,
+    LEVEL_CLEAR,
+    GAMESTATE_TOTAL
+};
+
 
 // std lib
 // apparently i shouldn't use this
@@ -34,6 +45,7 @@
 #include "config.hpp"
 #include "log.hpp"
 #include "graphics.hpp"
+#include "startmenu.hpp"
 #include "game_world.hpp"
 
 
@@ -43,6 +55,7 @@ bool load_game(char *path);
 
 void render_startup(void);
 void log(char *text);
+
 /*
 void render_start_menu(void);
 void render_options(void);// probably not necessary
@@ -56,15 +69,5 @@ void update(SDL_Event *, float);
 void draw(SDL_Event *, float);
 
 void close(void);
-enum GameState{
-    STARTUP,
-    START_MENU,
-    GAME_OPTIONS,
-    CREDITS,
-    LEVEL_START,
-    GAME,
-    LEVEL_CLEAR,
-    GAMESTATE_TOTAL
-};
-
+void change_main_state(GameState state);
 #endif
