@@ -40,20 +40,6 @@ void game_world_update(GameWorld *gw, SDL_Event *e, int dt) {
     update_player(gw, e, dt);
     move_ents(gw, dt);
     handle_collisions(gw, dt);
-    /*
-    int limit = 512;
-    gw->comps.pos_components[0].x += 1;
-    if (gw->comps.pos_components[0].x > limit) {
-        gw->comps.pos_components[0].x = 0;
-    }
-    */
-    //printf("%d\n", gw->comps.phys_components[0].x);
-    /*
-    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].x);
-    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].y);
-    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].w);
-    printf("%d\n", gw->comps.phys_components[1].coll_shapes[0].h);
-    */
 }
 
 /*

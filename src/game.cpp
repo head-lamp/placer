@@ -35,9 +35,6 @@ void update(SDL_Event *e, int dt) {
 }
 
 void change_main_state(GameState state) {
-    printf("GAME = %d\n", GAME);
-    printf("gamestate? %d\n", state);
-    printf("game == gamestate? %d\n", GAME==state);
 
     // enter new state
     switch(state) {
@@ -54,16 +51,18 @@ void change_main_state(GameState state) {
     game_state = state;
 }
 
+// TODO FIXME
+// pass renderer down to all the the functions
 void draw(SDL_Event *e, int dt) {
     // clear at the start of the step?
     SDL_RenderClear(renderer);
-    /*
     // cycle through possible parts of game
     // and let those components draw
-    // this will likely be functions like `draw_game()` or 
+   // this will likely be functions like `draw_game()` or 
     // function pointers on structs
     switch(game_state) {
         case STARTUP:
+            draw_startup(e, dt);
             break;
         case START_MENU:
             break;
@@ -78,7 +77,6 @@ void draw(SDL_Event *e, int dt) {
             break;
     }
 
-    */
     // i guess for now always draw the log?
     draw_log(renderer, dt);
 

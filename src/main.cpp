@@ -15,7 +15,7 @@ TTF_Font *nfont = NULL;
 // create saves dir
 int init(void) {
     // sdl stuff
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {
         printf("SDL couldn't initialize SDL err: %s\n", SDL_GetError());
         return 0;
     }
