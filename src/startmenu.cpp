@@ -3,6 +3,8 @@
 SDL_Texture *startup_texture;
 
 Uint32 exit_startup_callback(Uint32 interval, void* param) {
+    SDL_DestroyTexture(startup_texture);
+    startup_texture = NULL;
     change_main_state((GameState)(uintptr_t)param);
 
     return 0;
@@ -28,3 +30,14 @@ int8_t draw_startup(SDL_Event *e, int dt) {
     return 0;
 }
 
+int8_t init_startmenu(void) {
+    return 0;
+}
+
+int8_t update_startmenu(SDL_Event *e, int dt) {
+    return 0;
+}
+
+int8_t draw_startmenu(SDL_Event *e, int dt) {
+    return 0;
+}
