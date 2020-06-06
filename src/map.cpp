@@ -2,7 +2,7 @@
 
 int8_t load_map(const char *path) {
     const char *map_file = read_file(path);
-    printf("map_file = %s\n", map_file);
+    // printf("map_file = %s\n", map_file);
     size_t map_file_len = strlen(map_file);
     printf("map_file_len = %lu\n", map_file_len);
     const cJSON *map_data = cJSON_ParseWithOpts(map_file, 0, 1);
@@ -18,6 +18,7 @@ int8_t load_map(const char *path) {
     const cJSON *tile_sets_tmx = cJSON_GetObjectItem(map_data, "tilesets");
     size_t tile_sets_tmx_size = cJSON_GetArraySize(tile_sets_tmx);
     for (size_t i=0; i < tile_sets_tmx_size; i++) {
+        // TODO load the json tilesets ?
         cJSON *tile_set_tmx = cJSON_GetArrayItem(tile_sets_tmx, i);
         char *tmx_name =  cJSON_GetStringValue(cJSON_GetObjectItem(tile_set_tmx, "source"));
         printf("strip_exts res = %s\n", strip_exts(tmx_name));

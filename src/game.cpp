@@ -21,6 +21,7 @@ void update(SDL_Event *e, int dt) {
             update_startup(e, dt);
             break;
         case START_MENU:
+            update_startmenu(e, dt);
             break;
         case GAME_OPTIONS:
             break;
@@ -45,6 +46,8 @@ void change_main_state(GameState state) {
             printf("switching to game world\n");
             init_game_world(&gw);
             break;
+        case START_MENU:
+            init_startmenu();
         default:
             break;
     }
@@ -65,6 +68,7 @@ void draw(SDL_Event *e, int dt) {
             draw_startup(e, dt);
             break;
         case START_MENU:
+            draw_startmenu(e, dt);
             break;
         case GAME_OPTIONS:
             break;
