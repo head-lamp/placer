@@ -8,6 +8,7 @@ enum GameState{
     LEVEL_START,
     GAME,
     LEVEL_CLEAR,
+    EDITOR,
     GAMESTATE_TOTAL
 };
 
@@ -46,6 +47,7 @@ enum GameState{
 #include "log.hpp"
 #include "graphics.hpp"
 #include "startmenu.hpp"
+#include "editor.hpp"
 #include "game_world.hpp"
 
 

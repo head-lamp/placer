@@ -15,6 +15,7 @@ obj_files =\
 	renderable.o \
 	game_world.o \
 	startmenu.o \
+	editor.o \
 	map.o \
 	util.o \
 	lib/cJSON.o

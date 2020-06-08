@@ -43,6 +43,7 @@ int8_t init_startmenu(void) {
 
 enum STARTMENU_OPTIONS {
     NEW_GAME,
+    EDITOR_OP,
     FOO,
     BAR,
     BAZ,
@@ -75,6 +76,10 @@ int8_t update_startmenu(SDL_Event *e, int dt) {
         switch(selected_option) {
             case NEW_GAME:
                 change_main_state(GAME);
+                break;
+            case EDITOR_OP:
+                change_main_state(EDITOR);
+                break;
             default:
                 break;
         }
@@ -91,6 +96,7 @@ int8_t draw_startmenu(SDL_Event *e, int dt) {
 
     const char *startup_options[] = {
         "new_game",
+        "editor",
         "foo", "bar", "baz"
     };
     SDL_Color color;

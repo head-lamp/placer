@@ -23,6 +23,9 @@ void update(SDL_Event *e, int dt) {
         case START_MENU:
             update_startmenu(e, dt);
             break;
+        case EDITOR:
+            update_editor(e, dt);
+            break;
         case GAME_OPTIONS:
             break;
         case CREDITS:
@@ -48,6 +51,10 @@ void change_main_state(GameState state) {
             break;
         case START_MENU:
             init_startmenu();
+            break;
+        case EDITOR:
+            init_editor();
+            break;
         default:
             break;
     }
@@ -69,6 +76,9 @@ void draw(SDL_Event *e, int dt) {
             break;
         case START_MENU:
             draw_startmenu(e, dt);
+            break;
+        case EDITOR:
+            draw_editor(e, dt);
             break;
         case GAME_OPTIONS:
             break;
