@@ -70,6 +70,15 @@ int8_t update_startmenu(SDL_Event *e, int dt) {
     if (!keystate[SDL_SCANCODE_S]&& KEYS[SDL_SCANCODE_S]) {
         KEYS[SDL_SCANCODE_S] = false;
     }
+
+    if (keystate[SDL_SCANCODE_SPACE])  {
+        switch(selected_option) {
+            case NEW_GAME:
+                change_main_state(GAME);
+            default:
+                break;
+        }
+    }
     return 0;
 }
 
