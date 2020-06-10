@@ -49,6 +49,14 @@ if we can afford the cycles and space we can get rid of the pointers here
  */
 extern SDL_Renderer *renderer;
 int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
+
+    int p_id = gw->player_id;
+    Physical *player_phys = &gw->comps.phys_components[p_id];
+    Renderable *player_rend = &gw->comps.rend_components[p_id];
+    SDL_Rect camera;
+    camera.x = (player_phys->x + player_rend->w / 2) - 640 / 2;
+    camera.y = (player_phys->y + player_rend->h / 2) - 480 / 2;
+
     SDL_RenderClear(renderer);
     Renderable *rend;
     Physical *phys;
@@ -58,13 +66,21 @@ int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
         phys = &gw->comps.phys_components[i];
         // SDL_Rect rect; // = {12, 12, 32, 64};
         if (rend->entity_id == i && phys->entity_id == i) {
-            rect.x = phys->x;
-            rect.y = phys->y;
+            if (i == p_id) {
+                rect.x = phys->x - camera.x;
+                rect.y = phys->y - camera.y;
+            }
+            else {
+                rect.x = phys->x - camera.x;
+                rect.y = phys->y - camera.y;
+            }
             rect.w = rend->w;
             rect.h = rend->h;
             SDL_RenderCopy(renderer, (*rend).texture, NULL, &rect);
         }
     }
+
+
 
     SDL_RenderPresent(renderer);
     return 0;
