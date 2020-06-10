@@ -110,7 +110,7 @@ void run_game() {
     // test player
     // Player *p = (struct Player*)malloc(sizeof(Player));
     // p->physical.x = 0;
-    change_main_state(GAME);
+    change_main_state(EDITOR);
     // init_game_world(&gw);
     bool running = true;
     int cap = 1000/60;

@@ -66,16 +66,11 @@ int8_t game_world_draw(GameWorld *gw, SDL_Event *e, int dt) {
         phys = &gw->comps.phys_components[i];
         // SDL_Rect rect; // = {12, 12, 32, 64};
         if (rend->entity_id == i && phys->entity_id == i) {
-            if (i == p_id) {
-                rect.x = phys->x - camera.x;
-                rect.y = phys->y - camera.y;
-            }
-            else {
-                rect.x = phys->x - camera.x;
-                rect.y = phys->y - camera.y;
-            }
+            rect.x = phys->x - camera.x;
+            rect.y = phys->y - camera.y;
             rect.w = rend->w;
             rect.h = rend->h;
+
             SDL_RenderCopy(renderer, (*rend).texture, NULL, &rect);
         }
     }
