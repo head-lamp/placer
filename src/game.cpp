@@ -7,7 +7,9 @@ extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern TTF_Font *nfont;
 
+// these seems kinda dumb (?)
 GameWorld gw;
+Editor ed;
 
 int game_state;
 

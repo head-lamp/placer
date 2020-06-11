@@ -1,8 +1,5 @@
 #include "game.hpp"
 
-struct Editor {
-};
-
 int8_t init_editor(void) {
     return 0;
 }
@@ -12,7 +9,7 @@ int8_t update_editor(SDL_Event *e, int dt) {
 
     int x, y;
     SDL_GetMouseState(&x, &y);
-    printf("x %d, y %d\n", x, y);
+    // TODO use wasd
     if (x > 600) {
         camera.x -= 2;
     }
@@ -32,6 +29,7 @@ int8_t update_editor(SDL_Event *e, int dt) {
     return 0;
 }
 
+
 // TODO just expose the renderer variable in game.cpp/draw
 // because right now this extern renderer crap is awful
 extern SDL_Renderer* renderer;
@@ -48,7 +46,10 @@ int8_t draw_editor(SDL_Event *e, int dt) {
     for (int i = -480; i < 480; i += 64) {
         SDL_RenderDrawLine(renderer, 0, i + camera.y, 640, i + camera.y);
     }
-    return 0;
 
     // draw buttons
+    // SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0xFF);
+    // int res = SDL_RenderDrawRect(renderer, &rect);
+
+    return 0;
 }
