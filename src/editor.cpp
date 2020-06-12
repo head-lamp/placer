@@ -1,6 +1,40 @@
 #include "game.hpp"
 
-int8_t init_editor(void) {
+#define BUTTON_SIZE 64
+SDL_Rect button_pos(int x, int y) {
+    SDL_Rect rect = {
+        x,
+        y,
+        x+BUTTON_SIZE,
+        y+BUTTON_SIZE,
+    };
+
+    return rect;
+}
+
+/*
+so here is the deal
+the screen size is 640
+tile size is 640 (FOR NOW)
+so there can be 10 TILES per one row before you need to change columns
+so here is a bit of math to do that :)
+ */
+int8_t make_button(Editor *ed, size_t pos, EDITOR_BUTTONS button_id) {
+    // TODO this might need to be 10?
+    int xoffset = BUTTON_SIZE * (pos % 10);
+
+    int yoffset = BUTTON_SIZE * (pos / 10);
+    SDL_Rect button_position = button_pos(xoffset,yoffset);
+    printf("yoyo\n");
+    printf("pos = %lu\n", pos);
+    ed->buttons[0].button_id = button_id;
+    ed->buttons[0].pos = button_position;
+
+    return 0;
+}
+
+int8_t init_editor(Editor *ed) {
+    make_button(ed, 0, PLAYER_SPAWN);
     return 0;
 }
 
@@ -10,17 +44,18 @@ int8_t update_editor(SDL_Event *e, int dt) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     // TODO use wasd
-    if (x > 600) {
-        camera.x -= 2;
-    }
-    if (x < 40) {
+    const Uint8 *keystate = SDL_GetKeyboardState(NULL);
+    if (keystate[SDL_SCANCODE_A]) {
         camera.x += 2;
     }
-    if (y > 440) {
-        camera.y -= 2;
+    if (keystate[SDL_SCANCODE_D]) {
+        camera.x -= 2;
     }
-    if (y < 40) {
+    if (keystate[SDL_SCANCODE_W]) {
         camera.y += 2;
+    }
+    if (keystate[SDL_SCANCODE_S]) {
+        camera.y -= 2;
     }
 
     // look for click events,

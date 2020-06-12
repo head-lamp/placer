@@ -55,7 +55,7 @@ void change_main_state(GameState state) {
             init_startmenu();
             break;
         case EDITOR:
-            init_editor();
+            init_editor(&ed);
             break;
         default:
             break;
