@@ -5,8 +5,8 @@ SDL_Rect button_pos(int x, int y) {
     SDL_Rect rect = {
         x,
         y,
-        x+BUTTON_SIZE,
-        y+BUTTON_SIZE,
+        BUTTON_SIZE,
+        BUTTON_SIZE,
     };
 
     return rect;
@@ -19,27 +19,33 @@ tile size is 640 (FOR NOW)
 so there can be 10 TILES per one row before you need to change columns
 so here is a bit of math to do that :)
  */
-int8_t make_button(Editor *ed, size_t pos, EDITOR_BUTTONS button_id) {
+int8_t make_button(Editor *ed, EDITOR_BUTTONS button_id) {
     // TODO this might need to be 10?
-    int xoffset = BUTTON_SIZE * (pos % 10);
+    int xoffset = BUTTON_SIZE * (ed->buttons_total % 10);
 
-    int yoffset = BUTTON_SIZE * (pos / 10);
+    int yoffset = BUTTON_SIZE * (ed->buttons_total / 10);
     SDL_Rect button_position = button_pos(xoffset,yoffset);
-    printf("yoyo\n");
-    printf("pos = %lu\n", pos);
-    ed->buttons[0].button_id = button_id;
-    ed->buttons[0].pos = button_position;
+
+    ed->buttons[ed->buttons_total].button_id = button_id;
+    ed->buttons[ed->buttons_total].pos = button_position;
+    ed->buttons_total++;
 
     return 0;
 }
 
 int8_t init_editor(Editor *ed) {
-    make_button(ed, 0, PLAYER_SPAWN);
+    ed->buttons_total = 0;
+    make_button(ed, PLAYER_SPAWN);
+    make_button(ed, WALL);
+    printf("ed->buttons_total = %lu\n", ed->buttons_total);
+    printf("%lu\n", ed->buttons_total);
+    printf("x %d, y %d, w %d, h %d\n", ed->buttons[0].pos.x, ed->buttons[0].pos.y, ed->buttons[0].pos.w, ed->buttons[0].pos.h);
+    printf("x %d, y %d, w %d, h %d\n", ed->buttons[1].pos.x, ed->buttons[1].pos.y, ed->buttons[1].pos.w, ed->buttons[1].pos.h);
     return 0;
 }
 
 SDL_Rect camera;
-int8_t update_editor(SDL_Event *e, int dt) {
+int8_t update_editor(Editor *ed, SDL_Event *e, int dt) {
 
     int x, y;
     SDL_GetMouseState(&x, &y);
@@ -68,7 +74,7 @@ int8_t update_editor(SDL_Event *e, int dt) {
 // TODO just expose the renderer variable in game.cpp/draw
 // because right now this extern renderer crap is awful
 extern SDL_Renderer* renderer;
-int8_t draw_editor(SDL_Event *e, int dt) {
+int8_t draw_editor(Editor *ed, SDL_Event *e, int dt) {
 
 
     SDL_SetRenderDrawColor(renderer, 207, 205, 200, 0xFF);
@@ -83,6 +89,10 @@ int8_t draw_editor(SDL_Event *e, int dt) {
     }
 
     // draw buttons
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
+    for (size_t i=0; i < ed->buttons_total; i++) {
+        int res = SDL_RenderDrawRect(renderer, &ed->buttons[i].pos);
+    }
     // SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0xFF);
     // int res = SDL_RenderDrawRect(renderer, &rect);
 

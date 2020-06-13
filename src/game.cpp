@@ -26,7 +26,7 @@ void update(SDL_Event *e, int dt) {
             update_startmenu(e, dt);
             break;
         case EDITOR:
-            update_editor(e, dt);
+            update_editor(&ed, e, dt);
             break;
         case GAME_OPTIONS:
             break;
@@ -80,7 +80,7 @@ void draw(SDL_Event *e, int dt) {
             draw_startmenu(e, dt);
             break;
         case EDITOR:
-            draw_editor(e, dt);
+            draw_editor(&ed, e, dt);
             break;
         case GAME_OPTIONS:
             break;
