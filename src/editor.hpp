@@ -1,7 +1,9 @@
 #ifndef EDITOR_HEADER
 #define EDITOR_HEADER
+#include "game.hpp"
 
 enum EDITOR_BUTTONS {
+    SELECT,
     WALL,
     PLAYER_SPAWN,
     EDITOR_BUTTONS_TOTAL
@@ -12,6 +14,7 @@ struct Button {
     SDL_Rect pos;
 };
 
+
 // ah the simplest way to do this
 // is (drumroll) ECS
 #define INITIAL_COMPONENT_SIZE 100
@@ -21,6 +24,7 @@ struct Editor {
     size_t buttons_total;
     int entity_list[INITIAL_COMPONENT_SIZE];
     int entities_total;
+    EDITOR_BUTTONS active_button;
     ComponentList comps;
 };
 

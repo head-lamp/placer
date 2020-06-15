@@ -1,5 +1,7 @@
 #ifndef UTIL_HEADER
 #define UTIL_HEADER
+#include "game.hpp"
+
 const char* read_file(const char *path);
 const char* strip_exts(const char *path);
 const char* strcat(const char *a, const char *b);

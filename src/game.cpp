@@ -14,7 +14,7 @@ Editor ed;
 int game_state;
 
 void tick(SDL_Event *e) {
-    float dt;
+    // float dt;
 }
 
 void update(SDL_Event *e, int dt) {
@@ -115,7 +115,7 @@ void run_game() {
     change_main_state(EDITOR);
     // init_game_world(&gw);
     bool running = true;
-    int cap = 1000/60;
+    //int cap = 1000/60;
     SDL_Event e;
     while (running) {
         start = SDL_GetTicks();

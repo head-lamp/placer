@@ -12,7 +12,6 @@ enum GameState{
     GAMESTATE_TOTAL
 };
 
-
 // std lib
 // apparently i shouldn't use this
 // i dont want to write a few of these functions myself though

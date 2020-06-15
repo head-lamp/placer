@@ -22,8 +22,8 @@ so here is a bit of math to do that :)
 int8_t make_button(Editor *ed, EDITOR_BUTTONS button_id) {
     // TODO this might need to be 10?
     int xoffset = BUTTON_SIZE * (ed->buttons_total % 10);
-
     int yoffset = BUTTON_SIZE * (ed->buttons_total / 10);
+
     SDL_Rect button_position = button_pos(xoffset,yoffset);
 
     ed->buttons[ed->buttons_total].button_id = button_id;
@@ -49,6 +49,18 @@ int8_t update_editor(Editor *ed, SDL_Event *e, int dt) {
 
     int x, y;
     SDL_GetMouseState(&x, &y);
+    // left_clicking
+    if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(SDL_BUTTON_LEFT)) {
+        printf("mouse left button\n");
+        SDL_Rect mouse_pos = {x,y,1,1};
+
+        // see if clicking a button
+        for (size_t i=0; i < ed->buttons_total; i++) {
+            if (SDL_HasIntersection(&ed->buttons[i].pos, &mouse_pos)) {
+                ed->active_button = ed->buttons[i].button_id;
+            }
+        }
+    }
     // TODO use wasd
     const Uint8 *keystate = SDL_GetKeyboardState(NULL);
     if (keystate[SDL_SCANCODE_A]) {
@@ -64,9 +76,14 @@ int8_t update_editor(Editor *ed, SDL_Event *e, int dt) {
         camera.y -= 2;
     }
 
+    if (keystate[SDL_SCANCODE_G]) {
+        ed->active_button = SELECT;
+    }
     // look for click events,
     // see what button was pressed
     // do stuff
+
+    printf("active_button = %d", ed->active_button);
     return 0;
 }
 
@@ -91,7 +108,7 @@ int8_t draw_editor(Editor *ed, SDL_Event *e, int dt) {
     // draw buttons
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0xFF);
     for (size_t i=0; i < ed->buttons_total; i++) {
-        int res = SDL_RenderDrawRect(renderer, &ed->buttons[i].pos);
+        SDL_RenderDrawRect(renderer, &ed->buttons[i].pos);
     }
     // SDL_SetRenderDrawColor(renderer, 0, 0, 255, 0xFF);
     // int res = SDL_RenderDrawRect(renderer, &rect);

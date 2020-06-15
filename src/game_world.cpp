@@ -273,7 +273,6 @@ TODO FIXME:
     might be _super dangerous and slow_
  */
 int8_t handle_collisions(GameWorld *gw, int dt) {
-    size_t total_ents = gw->entities_total;
     Physical *phys_a = NULL;
     Physical *phys_b = NULL;
 
