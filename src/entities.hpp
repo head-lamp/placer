@@ -17,6 +17,10 @@ enum Components {
     COMPONENTS_TOTAL
 };
 
+enum ENTITIES {
+    PLAYER,
+    WALL,
+};
 
 Components get_comp_id(const char *name);
 #endif

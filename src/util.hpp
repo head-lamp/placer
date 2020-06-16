@@ -12,4 +12,6 @@ const int get_json_int(const cJSON *obj, const char *key);
 const float get_json_float(const cJSON *obj, const char *key);
 
 SDL_Rect* get_rects(const cJSON *obj, const char *key);
+
+const int snap_64(int n);
 #endif

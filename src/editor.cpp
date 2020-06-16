@@ -35,12 +35,19 @@ int8_t make_button(Editor *ed, EDITOR_BUTTONS button_id) {
 
 int8_t init_editor(Editor *ed) {
     ed->buttons_total = 0;
-    make_button(ed, PLAYER_SPAWN);
-    make_button(ed, WALL);
+    make_button(ed, ED_PLAYER_SPAWN);
+    make_button(ed, ED_WALL);
     printf("ed->buttons_total = %lu\n", ed->buttons_total);
     printf("%lu\n", ed->buttons_total);
     printf("x %d, y %d, w %d, h %d\n", ed->buttons[0].pos.x, ed->buttons[0].pos.y, ed->buttons[0].pos.w, ed->buttons[0].pos.h);
     printf("x %d, y %d, w %d, h %d\n", ed->buttons[1].pos.x, ed->buttons[1].pos.y, ed->buttons[1].pos.w, ed->buttons[1].pos.h);
+    return 0;
+}
+
+int8_t place_entity(Editor *ed, SDL_Rect *mouse_pos) {
+    int x_pos = snap_64(mouse_pos->x);
+    int y_pos = snap_64(mouse_pos->y);
+
     return 0;
 }
 
@@ -51,14 +58,19 @@ int8_t update_editor(Editor *ed, SDL_Event *e, int dt) {
     SDL_GetMouseState(&x, &y);
     // left_clicking
     if (SDL_GetMouseState(NULL, NULL) && SDL_BUTTON(SDL_BUTTON_LEFT)) {
-        printf("mouse left button\n");
+        // printf("mouse left button\n");
         SDL_Rect mouse_pos = {x,y,1,1};
 
+        bool selecting_a_button = false;
         // see if clicking a button
         for (size_t i=0; i < ed->buttons_total; i++) {
             if (SDL_HasIntersection(&ed->buttons[i].pos, &mouse_pos)) {
                 ed->active_button = ed->buttons[i].button_id;
+                selecting_a_button = true;
             }
+        }
+        if (!selecting_a_button) {
+            place_entity(ed, &mouse_pos);
         }
     }
     // TODO use wasd
@@ -77,13 +89,13 @@ int8_t update_editor(Editor *ed, SDL_Event *e, int dt) {
     }
 
     if (keystate[SDL_SCANCODE_G]) {
-        ed->active_button = SELECT;
+        ed->active_button = ED_SELECT;
     }
     // look for click events,
     // see what button was pressed
     // do stuff
 
-    printf("active_button = %d", ed->active_button);
+    // printf("active_button = %d", ed->active_button);
     return 0;
 }
 

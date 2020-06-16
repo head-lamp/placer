@@ -3,10 +3,10 @@
 #include "game.hpp"
 
 enum EDITOR_BUTTONS {
-    SELECT,
-    WALL,
-    PLAYER_SPAWN,
-    EDITOR_BUTTONS_TOTAL
+    ED_SELECT,
+    ED_WALL,
+    ED_PLAYER_SPAWN,
+    ED_EDITOR_BUTTONS_TOTAL
 };
 
 struct Button {
@@ -31,4 +31,6 @@ struct Editor {
 int8_t init_editor(Editor *ed);
 int8_t update_editor(Editor *ed, SDL_Event *e, int dt);
 int8_t draw_editor(Editor *ed, SDL_Event *e, int dt);
+
+int8_t place_entity(Editor *ed, SDL_Rect &mouse_pos);
 #endif

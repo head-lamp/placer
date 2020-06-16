@@ -124,3 +124,7 @@ SDL_Rect* get_rects(const cJSON *obj, const char *key) {
     }
     return rects;
 }
+
+const int snap_64(int n) {
+    return (n + 0x20)&(~0x3f);
+}
